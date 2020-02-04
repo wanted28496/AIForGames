@@ -18,6 +18,27 @@ SteeringOutputStructure DynamicArrive::getSteering()
 {
 	SteeringOutputStructure steering = SteeringOutputStructure();
 	float distance = mCharacter.mPosition.distance(mTarget.mPosition);
+	float factor;
+	if(distance > mSlowRadius)
+	{
+		factor = 1;
+	} else if(distance < mTargetRadius)
+	{
+		factor = 0;
+	} else
+	{
+		factor = distance / mSlowRadius;
+	}
+
+	steering.mLinear = mTarget.mPosition - mCharacter.mPosition;
+	steering.mLinear /= mTimeToTarget;
+
+	if(steering.mLinear.length() > mMaxAccel)
+	{
+
+	}
+	steering.mLinear *= factor;
+
 
 	return SteeringOutputStructure();
 }

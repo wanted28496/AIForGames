@@ -2,33 +2,28 @@
 #include "KinematicSeek.h"
 #include "KinematicArrive.h"
 #include "Structures.h"
+#include "..//Boid.h"
 
-ofVec2f position;
+
 ofVec2f targetLocation;
-int radius;
-int diff;
-int lastPoint;
 KinematicSeek kSeekAlgo;
 KinematicArrive kArriveAlgo;
+Boid character;
 bool startAlgo = false;
 int caseIndex = 0;
-float orientation;
-
+float startTime;
+bool isTimerActive = false;
 
 void ofApp::SetupAlgorithms()
 {
-	kSeekAlgo = KinematicSeek(100);
+	kSeekAlgo = KinematicSeek(30);
 	kArriveAlgo = KinematicArrive(100, 5, 2);
 }
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	SetupAlgorithms();
-	position = ofVec2f(50, 50);
-	radius = 20;
-	diff = (radius / 3) * 2;
-	lastPoint = radius + diff;
-	orientation = 0;
+	startTime = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------
@@ -49,16 +44,23 @@ void ofApp::draw(){
 	if (playKinematicArrive)
 	{
 		ofSetColor(200, 115, 50);
-		ofDrawSphere(targetLocation.x, targetLocation.y, radius * 1.1);
+		ofDrawSphere(targetLocation.x, targetLocation.y, 20 * 1.1);
 	}
 
-	ofSetColor(0, 0, 0);
+	/*ofSetColor(0, 0, 0);*/
 	//float degree = ofRadToDeg();
-	ofDrawSphere(position.x, position.y, radius);
-	ofDrawTriangle(position.x+ diff, position.y- diff, position.x+ diff, position.y+ diff, position.x+lastPoint, position.y);
+	if(isTimerActive)
+	{
+		float timer = ofGetElapsedTimeMillis() - startTime;
 
-	
-
+		if(timer >= 200)
+		{
+			character.InitBreadCrumps();
+			startTime = ofGetElapsedTimeMillis();
+		}
+	}
+	character.DrawBoid();
+	character.DrawBreadCrumps();
 }
 
 //--------------------------------------------------------------
@@ -70,11 +72,19 @@ void ofApp::keyPressed(int key){
 		case 48:
 			playKinematicSeek = true;
 			playKinematicArrive = false;
+			character.SetBoidLocation(kSeekAlgo.mCharacter.mPosition);
+			character.SetBoidOrientation(kSeekAlgo.mCharacter.mOrientation);
+			character.ClearBreadCrumps();
+			isTimerActive = true;
 			break;
 		case 49:
 			playKinematicSeek = false;
 			playKinematicArrive = true;
 			kArriveAlgo.mTarget.mPosition = kArriveAlgo.mCharacter.mPosition;
+			character.SetBoidLocation(kArriveAlgo.mCharacter.mPosition);
+			character.SetBoidOrientation(kArriveAlgo.mCharacter.mOrientation);
+			isTimerActive = true;
+			character.ClearBreadCrumps();
 			break;
 		case 50:
 			playKinematicSeek = false;
@@ -103,6 +113,7 @@ void ofApp::mousePressed(int x, int y, int button){
 	if (playKinematicArrive)
 	{
 		kArriveAlgo.mTarget.mPosition = ofVec2f(x, y);
+		isTimerActive = true;
 		targetLocation = kArriveAlgo.mTarget.mPosition;
 	}
 }
@@ -136,8 +147,9 @@ void ofApp::DoKinematicSeek()
 {
 	SteeringOutputStructure steering = kSeekAlgo.getSteering();
 	kSeekAlgo.UpdateKinematic(0.1f, steering, kSeekAlgo.mMaxSpeed);
-	position = kSeekAlgo.mCharacter.mPosition;
-	orientation = kSeekAlgo.mCharacter.mOrientation;
+	character.SetBoidLocation(kSeekAlgo.mCharacter.mPosition);
+	character.SetBoidOrientation(kSeekAlgo.mCharacter.mOrientation);
+
 	if (caseIndex == 0)
 	{
 		if (kSeekAlgo.mCharacter.mPosition.x >= kSeekAlgo.mTarget.mPosition.x)
@@ -179,9 +191,13 @@ void ofApp::DoKinematicSeek()
 void ofApp::DoKinematicArrive()
 {
 	SteeringOutputStructure steering = kArriveAlgo.getSteering();
+	if(steering.mLinear.length() <= 0)
+	{
+		isTimerActive = false;
+	}
 	kArriveAlgo.UpdateKinematic(0.1f, steering);
-	position = kArriveAlgo.mCharacter.mPosition;
-	orientation = kArriveAlgo.mCharacter.mOrientation;
+	character.SetBoidLocation(kArriveAlgo.mCharacter.mPosition);
+	character.SetBoidOrientation(kArriveAlgo.mCharacter.mOrientation);
 }
 
 //--------------------------------------------------------------

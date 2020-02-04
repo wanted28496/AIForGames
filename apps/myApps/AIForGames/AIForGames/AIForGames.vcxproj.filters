@@ -13,8 +13,13 @@
     <ClCompile Include="src\Structures.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Boid.cpp" />
     <ClCompile Include="src\KinematicArrive.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DynamicArrive.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Boid.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,8 +41,13 @@
     <ClInclude Include="src\Structures.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Boid.h" />
     <ClInclude Include="src\KinematicArrive.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DynamicArrive.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Boid.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
