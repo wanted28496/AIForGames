@@ -37,7 +37,7 @@ void Boid::DrawBreadCrumps()
 
 	for each(ofVec2f var in breadCrumps)
 	{
-		ofDrawSphere(var.x, var.y, 5);
+		ofDrawSphere(var.x, var.y, 1);
 	}
 }
 

@@ -287,7 +287,7 @@ void ofApp::DoDynamicArrive()
 		isTimerActive = false;
 	}
 
-	SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 3, 0.5, 30, 10, 0.1f);
+	SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 3, 0.5, 3, 1, 0.1f);
 
 	SteeringOutputStructure steering;
 	steering.mAngular = (0 * steering1.mAngular) + (1 * steering2.mAngular);
@@ -299,8 +299,8 @@ void ofApp::DoDynamicArrive()
 
 void ofApp::DoDynamicWander()
 {
-	SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 1, 0.2, 50, 10, 0.1, 20, 100, 20, 1, 1);
-	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 5));
+	SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 10, 10, 50, 10, 0.1, 0.1, 0.1, 0.1, 30, 2);
+	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 10));
 	/*SteeringOutputStructure steering = MovementAlgorithms::KinematicWander(sCharacter.GetBoidKinematic(), 100, 30);
 	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.1f, steering));*/
 }

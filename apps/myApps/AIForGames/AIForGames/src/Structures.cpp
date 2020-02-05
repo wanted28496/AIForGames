@@ -192,6 +192,7 @@ SteeringOutputStructure MovementAlgorithms::DynamicSepration(KinematicStructure 
 			continue;
 		}
 		SteeringOutputStructure steering = DynamicEvade(iCharacter, iTarget[i], iMaxAccel, iPersonalRadius);
+		//finalSteering.mAngular += proportion * GetNewOrientation(steering.mAngular, steering.mLinear);
 		finalSteering.mLinear += (proportion * steering.mLinear);
 	}
 
@@ -201,22 +202,43 @@ SteeringOutputStructure MovementAlgorithms::DynamicSepration(KinematicStructure 
 		finalSteering.mLinear *= iMaxAccel;
 	}
 
+
+
 	return finalSteering;
 
+}
+
+float MapToRange(float angle)
+{
+	while(angle > PI && angle < -PI)
+	{
+		if(angle > PI)
+		{
+			angle -= (2 * PI);
+		}
+		if(angle < -PI)
+		{
+			angle += (2 * PI);
+		}
+	}
+	return angle;
 }
 
 SteeringOutputStructure MovementAlgorithms::Allign(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxRotation, float iMaxAngular, float iSlowAngle, float iTargetAngle, float iTime)
 {
 	SteeringOutputStructure steering = SteeringOutputStructure();
-	auto rotation = iTarget.mOrientation - iCharacter.mOrientation;
-	
-	if(rotation > PI)
+
+	//auto rotation = iTarget.mOrientation - iCharacter.mOrientation;
+	auto rotation = MapToRange(iTarget.mOrientation) - MapToRange(iCharacter.mOrientation);
+	std::cout << "Target Orientation: " << iTarget.mOrientation << std::endl << "Character Orienttation: " << iCharacter.mOrientation << std::endl;
+	/*if(rotation > PI)
 	{
 		rotation -= (2*PI);
 	} else if(rotation < -PI)
 	{
 		rotation += (2 * PI);
-	}
+	}*/
+	std::cout << "Rotation: " << rotation << std::endl;
 	auto rotationSize = abs(rotation);
 
 	if(rotationSize < iTargetAngle)
@@ -232,7 +254,17 @@ SteeringOutputStructure MovementAlgorithms::Allign(KinematicStructure iCharacter
 	{
 		targetRotation = (iMaxRotation * rotationSize) / iSlowAngle;
 	}
+	/*if(rotation > 0)
+	{
+	} */
+	if(rotation < 0)
+	{
+		targetRotation *= -1;
 
+	} else
+	{
+		targetRotation *= 1;
+	}
 	steering.mAngular = targetRotation - iCharacter.mRotation;
 	steering.mAngular /= iTime;
 
@@ -323,16 +355,22 @@ std::vector<SteeringOutputStructure> MovementAlgorithms::NormalFlock(std::vector
 	for(int i = 0; i < (int)iTarget.size(); i++)
 	{
 		SteeringOutputStructure finalSteering = SteeringOutputStructure();
+		SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(iTarget[i], target, 20, iMaxAccel, iRadius, 50, iTime);
+		SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(iTarget[i], target, iMaxRotation, 0.5, 3, iRadius, 0.1f);
+
+		SteeringOutputStructure steering;
+		steering.mAngular = (0 * steering1.mAngular) + (1 * steering2.mAngular);
+		steering.mLinear = (1 * steering1.mLinear) + (0 * steering2.mLinear);
 		
-		SteeringOutputStructure seekSteering = MovementAlgorithms::KinematicArrive(iTarget[i], target, iMaxAccel, iRadius, iTime);
+		/*SteeringOutputStructure seekSteering = MovementAlgorithms::KinematicArrive(iTarget[i], target, iMaxAccel, iRadius, iTime);*/
 
 		SteeringOutputStructure seperationSteering = MovementAlgorithms::DynamicSepration(iTarget[i], iTarget, 50, iRadius, i);
 
 		SteeringOutputStructure velocityMatchSteering = MovementAlgorithms::VelocityMatch(iTarget[i], target, iMaxAccel, iTime);
 
-		finalSteering.mLinear = 0.6 * seekSteering.mLinear + 0.8 * seperationSteering.mLinear + 0.4 * velocityMatchSteering.mLinear;
+		finalSteering.mLinear = (0.6 * steering.mLinear) + (10 * seperationSteering.mLinear) + (0.4 * velocityMatchSteering.mLinear);
 
-		finalSteering.mAngular = 0.6 * seekSteering.mAngular + 0.8 * seperationSteering.mAngular + 0.4 * velocityMatchSteering.mAngular;
+		finalSteering.mAngular = (0.6 * steering.mAngular) + (10 * seperationSteering.mAngular) + (0.4 * velocityMatchSteering.mAngular);
 
 		if(finalSteering.mLinear.length() > iMaxAccel)
 		{
