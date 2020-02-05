@@ -16,8 +16,12 @@ public:
 	void InitBreadCrumps();
 	void ClearBreadCrumps();
 
+	KinematicStructure GetBoidKinematic();
+	void SetBoidKinematic(KinematicStructure);
 	void SetBoidLocation(ofVec2f);
+	ofVec2f GetBoidLocation();
 	void SetBoidOrientation(float);
+	float GetBoidOrientation();
 
 	Boid();
 	~Boid();

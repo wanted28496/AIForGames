@@ -23,9 +23,36 @@ struct SteeringOutputStructure
 struct KinematicStructure
 {
 	ofVec2f mPosition;
-	float mOrientation;
+	float mOrientation = 0;
 	ofVec2f mVelocity;
-	float mRotation;
+	float mRotation = 0;
+
+	void operator=(KinematicStructure iRHS);
+
+};
+
+struct MovementAlgorithms
+{
+	static KinematicStructure UpdateKinematic(KinematicStructure iObject, float iDeltaTime, SteeringOutputStructure iSteering);
+
+	static float GetNewOrientation(float iOrientation, ofVec2f iVelocity);
+
+	static SteeringOutputStructure KinematicSeek(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxVel);
+
+	static SteeringOutputStructure KinematicArrive(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxVel, float iTargetRadius, float iTimeToTarget);
+
+	static KinematicStructure UpdateDynamic(KinematicStructure iObject, float iDeltaTime, SteeringOutputStructure iSteering, float iMaxSpeed);
+
+	static SteeringOutputStructure DynamicArrive(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxVel, float maxAccel, float iTargetRadius, float slowRadius, float iTimeToTarget);
+	static SteeringOutputStructure DynamicFlee(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxAccel);
+	static SteeringOutputStructure DynamicEvade(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxAccel, float iPersonalRadius);
+	static SteeringOutputStructure DynamicSepration(KinematicStructure iCharacter, KinematicStructure iTarget[], float iMaxAccel, float iPersonalRadius);
+	static SteeringOutputStructure Allign(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxRotation, float iMaxAngular, float iSlowAngle, float iTargetAngle, float iTime);
+	static SteeringOutputStructure LookWhereYouAreGoing(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxRotation, float iMaxAngular, float iSlowAngle, float iTargetAngle, float iTime);
+	static SteeringOutputStructure DynamicFace(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxRotation, float iMaxAngular, float iSlowAngle, float iTargetAngle, float iTime);
+	static SteeringOutputStructure DynamicWander(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxRotation, float iMaxAngular, float iSlowAngle, float iTargetAngle, float iTime, float iWanderOffset, float iWanderRadius, float iWanderRate, float iWanderOrientation, float iMaxAccel);
+	static SteeringOutputStructure VelocityMatch(float iMaxAccel, ofVec2f iVelocity, float iTime);
+
 
 };
 

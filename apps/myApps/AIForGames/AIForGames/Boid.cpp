@@ -11,10 +11,10 @@ void Boid::DrawBoid()
 	int diff = (radius / 3) * 2;
 	int lastPoint = radius + diff;
 	ofTranslate(mCharacter.mPosition.x, mCharacter.mPosition.y);
-	ofRotateZ(mCharacter.mOrientation);
-	ofDrawSphere(mCharacter.mPosition.x, mCharacter.mPosition.y, radius);
-	ofDrawTriangle(mCharacter.mPosition.x + diff, mCharacter.mPosition.y - diff, mCharacter.mPosition.x + diff, mCharacter.mPosition.y + diff, mCharacter.mPosition.x + lastPoint, mCharacter.mPosition.y);
-	ofRotateZ(-mCharacter.mOrientation);
+	ofRotateZRad(mCharacter.mOrientation);
+	ofDrawSphere(0, 0, radius);
+	ofDrawTriangle(diff, -diff, diff, diff, lastPoint, 0);
+	ofRotateZRad(-mCharacter.mOrientation);
 	ofTranslate(-mCharacter.mPosition.x, -mCharacter.mPosition.y);
 }
 
@@ -38,14 +38,34 @@ void Boid::ClearBreadCrumps()
 	breadCrumps.clear();
 }
 
+KinematicStructure Boid::GetBoidKinematic()
+{
+	return mCharacter;
+}
+
+void Boid::SetBoidKinematic(KinematicStructure iValue)
+{
+	mCharacter = iValue;
+}
+
 void Boid::SetBoidLocation(ofVec2f iPosition)
 {
 	mCharacter.mPosition = iPosition;
 }
 
+ofVec2f Boid::GetBoidLocation()
+{
+	return mCharacter.mPosition;
+}
+
 void Boid::SetBoidOrientation(float iOrientation)
 {
 	mCharacter.mOrientation = iOrientation;
+}
+
+float Boid::GetBoidOrientation()
+{
+	return mCharacter.mOrientation;
 }
 
 Boid::Boid()

@@ -27,6 +27,9 @@ class ofApp : public ofBaseApp{
 		bool playKinematicArrive = false;
 		void DoKinematicArrive();
 
+		bool playDynamicArrive = false;
+		void DoDynamicArrive();
+
 		void SetupAlgorithms();
 
 };
