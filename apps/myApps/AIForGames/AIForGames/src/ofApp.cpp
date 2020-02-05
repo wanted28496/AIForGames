@@ -4,18 +4,15 @@
 #include "Structures.h"
 #include "..//Boid.h"
 
-
-ofVec2f targetLocation;
-KinematicSeek kSeekAlgo;
-KinematicArrive kArriveAlgo;
 Boid sCharacter;
 Boid sTarget;
+std::vector<Boid> flock;
 bool startAlgo = false;
 int caseIndex = 0;
 float startTime;
-bool isTimerActive = false;
-
-
+bool isTimerActive = true;
+int leaderIndex = 0;
+Algorithms currentAlgorithm = Algorithms::Kinematicseek;
 
 void ofApp::SetupAlgorithms()
 {
@@ -27,47 +24,89 @@ void ofApp::SetupAlgorithms()
 void ofApp::setup(){
 	SetupAlgorithms();
 	startTime = ofGetElapsedTimeMillis();
+	/*flock.push_back(sCharacter);
+	flock.push_back(sTarget);*/
+	for(int i = 0; i < 10; i++)
+	{
+		Boid b = Boid();
+		b.SetBoidLocation(ofVec2f(ofRandom(Width), ofRandom(Height)));
+		flock.push_back(b);
+	}
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	if (playKinematicSeek)
+	switch(currentAlgorithm)
 	{
-		DoKinematicSeek();
-	}
-	if (playKinematicArrive)
-	{
-		DoKinematicArrive();
-	}
-	if(playDynamicArrive)
-	{
+	case Algorithms::DynamicArrive:
 		DoDynamicArrive();
+		break;
+	case Algorithms::KinematicArrive:
+		DoKinematicArrive();
+		break;
+	case Algorithms::Kinematicseek:
+		DoKinematicSeek();
+		break;
+	case Algorithms::LeaderFlock:
+		DoLeaderFlocking();
+		break;
+	case Algorithms::NormalFlock:
+		DoNormalFlocking();
+		break;
+	case Algorithms::Wander:
+		DoDynamicWander();
+		break;
+
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-	if (playKinematicArrive || playDynamicArrive)
+	
+	if(currentAlgorithm != Algorithms::NormalFlock && currentAlgorithm != Algorithms::LeaderFlock)
 	{
-		ofSetColor(200, 115, 50);
-		ofDrawSphere(targetLocation.x, targetLocation.y, 20 * 1.1);
-	}
-
-	/*ofSetColor(0, 0, 0);*/
-	//float degree = ofRadToDeg();
-	if(isTimerActive)
-	{
-		float timer = ofGetElapsedTimeMillis() - startTime;
-
-		if(timer >= 200)
+		if(currentAlgorithm == Algorithms::DynamicArrive || currentAlgorithm == Algorithms::KinematicArrive)
 		{
-			sCharacter.InitBreadCrumps();
-			startTime = ofGetElapsedTimeMillis();
+			ofSetColor(200, 115, 50);
+			sTarget.DrawBoid();
+		}
+
+		/*ofSetColor(0, 0, 0);*/
+		//float degree = ofRadToDeg();
+		if(isTimerActive)
+		{
+			float timer = ofGetElapsedTimeMillis() - startTime;
+
+			if(timer >= 200)
+			{
+				sCharacter.InitBreadCrumps();
+				startTime = ofGetElapsedTimeMillis();
+			}
+		}
+		ofSetColor(0, 0, 0);
+		sCharacter.DrawBoid();
+		sCharacter.DrawBreadCrumps();
+	} else
+	{
+		for(int i = 0; i < (int)flock.size(); i++)
+		{
+			flock[i].InitBreadCrumps();
+
+			if(currentAlgorithm == Algorithms::LeaderFlock && i == leaderIndex)
+			{
+				ofSetColor(0, 250, 0);
+			} else
+			{
+				ofSetColor(0, 0, 0);
+			}
+			flock[i].DrawBoid();
+			flock[i].DrawBreadCrumps();
+
 		}
 	}
-	sCharacter.DrawBoid();
-	sCharacter.DrawBreadCrumps();
+
 }
 
 //--------------------------------------------------------------
@@ -77,16 +116,12 @@ void ofApp::keyPressed(int key){
 	switch (key)
 	{
 		case 48:
-			playKinematicSeek = true;
-			playDynamicArrive = false;
-			playKinematicArrive = false;
+			currentAlgorithm = Algorithms::Kinematicseek;
 			sCharacter.ClearBreadCrumps();
 			isTimerActive = true;
 			break;
 		case 49:
-			playKinematicSeek = false;
-			playDynamicArrive = false;
-			playKinematicArrive = true;
+			currentAlgorithm = Algorithms::KinematicArrive;
 			sTarget.SetBoidLocation(sCharacter.GetBoidLocation());
 			//kArriveAlgo.mTarget.mPosition = kArriveAlgo.mCharacter.mPosition;
 			//sCharacter.SetBoidLocation(kArriveAlgo.mCharacter.mPosition);
@@ -95,13 +130,34 @@ void ofApp::keyPressed(int key){
 			sCharacter.ClearBreadCrumps();
 			break;
 		case 50:
-			playKinematicSeek = false;
-			playKinematicArrive = false;
-			playDynamicArrive = true;
+			currentAlgorithm = Algorithms::DynamicArrive;
 			sTarget.SetBoidLocation(sCharacter.GetBoidLocation());
 			isTimerActive = true;
 			sCharacter.ClearBreadCrumps();
 			break;
+		case 51:
+			currentAlgorithm = Algorithms::Wander;
+			sTarget.SetBoidLocation(sCharacter.GetBoidLocation());
+			isTimerActive = true;
+			sCharacter.ClearBreadCrumps();
+			break;
+		case 52:
+			currentAlgorithm = Algorithms::NormalFlock;
+			isTimerActive = true;
+			for(int i = 0; i < (int)flock.size(); i++)
+			{
+				flock[i].ClearBreadCrumps();
+			}
+			break;
+		case 53:
+			currentAlgorithm = Algorithms::LeaderFlock;
+			isTimerActive = true;
+			for(int i = 0; i < (int)flock.size(); i++)
+			{
+				flock[i].ClearBreadCrumps();
+			}
+			break;
+
 	}
 }
 
@@ -122,19 +178,11 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	if (playKinematicArrive)
+	if(currentAlgorithm == Algorithms::KinematicArrive || currentAlgorithm == Algorithms::DynamicArrive)
 	{
 		sTarget.SetBoidLocation(ofVec2f(x, y));
 		//kArriveAlgo.mTarget.mPosition = ofVec2f(x, y);
 		isTimerActive = true;
-		targetLocation = sTarget.GetBoidLocation();
-	}
-	if(playDynamicArrive)
-	{
-		sTarget.SetBoidLocation(ofVec2f(x, y));
-		//kArriveAlgo.mTarget.mPosition = ofVec2f(x, y);
-		isTimerActive = true;
-		targetLocation = sTarget.GetBoidLocation();
 	}
 }
 
@@ -166,7 +214,7 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::DoKinematicSeek()
 {
 
-	SteeringOutputStructure steering = MovementAlgorithms::KinematicSeek(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 150);
+	SteeringOutputStructure steering = MovementAlgorithms::KinematicSeek(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 500);
 	sCharacter.SetBoidOrientation(MovementAlgorithms::GetNewOrientation(sCharacter.GetBoidOrientation(), steering.mLinear));
 	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.116, steering));
 	//kSeekAlgo.UpdateKinematic(0.1f, steering, kSeekAlgo.mMaxSpeed);
@@ -233,13 +281,13 @@ void ofApp::DoKinematicArrive()
 
 void ofApp::DoDynamicArrive()
 {
-	SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 20, 10, 20, 250, 3);
+	SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 20, 5, 20, 50, 3);
 	if(steering1.mLinear.length() <= 0)
 	{
 		isTimerActive = false;
 	}
 
-	SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 1, 0.5, 30, 10, 2);
+	SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 3, 0.5, 30, 10, 0.1f);
 
 	SteeringOutputStructure steering;
 	steering.mAngular = (0 * steering1.mAngular) + (1 * steering2.mAngular);
@@ -248,6 +296,35 @@ void ofApp::DoDynamicArrive()
 
 	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 250));
 }
+
+void ofApp::DoDynamicWander()
+{
+	SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 1, 0.2, 50, 10, 0.1, 20, 100, 20, 1, 1);
+	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 5));
+	/*SteeringOutputStructure steering = MovementAlgorithms::KinematicWander(sCharacter.GetBoidKinematic(), 100, 30);
+	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.1f, steering));*/
+}
+
+void ofApp::DoNormalFlocking()
+{
+	std::vector<KinematicStructure> kinematics;
+	for(int i = 0; i < (int)flock.size(); i++)
+	{
+		kinematics.push_back(flock[i].GetBoidKinematic());
+	}
+	std::vector<SteeringOutputStructure> steeringList = MovementAlgorithms::NormalFlock(kinematics, 5, 0.1, 30, 10);
+
+	for(int i = 0; i < (int)flock.size(); i++)
+	{
+		flock[i].SetBoidKinematic(MovementAlgorithms::UpdateDynamic(flock[i].GetBoidKinematic(), 0.1, steeringList[i], 5));
+	}
+
+}
+
+void ofApp::DoLeaderFlocking()
+{
+}
+
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 

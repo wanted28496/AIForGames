@@ -5,6 +5,7 @@
 class ofApp : public ofBaseApp{
 
 	public:
+		void SetupAlgorithms();
 		void setup();
 		void update();
 		void draw();
@@ -30,6 +31,22 @@ class ofApp : public ofBaseApp{
 		bool playDynamicArrive = false;
 		void DoDynamicArrive();
 
-		void SetupAlgorithms();
+		bool playDynamicWander = false;
+		void DoDynamicWander();
 
+		bool playNormalFlocking = false;
+		bool playLeaderFlocking = false;
+		void DoNormalFlocking();
+		void DoLeaderFlocking();
+
+};
+
+enum Algorithms
+{
+	Kinematicseek,
+	KinematicArrive,
+	DynamicArrive,
+	Wander,
+	NormalFlock,
+	LeaderFlock,
 };

@@ -4,12 +4,10 @@
 
 class Boid
 {
+	
+public:
 	KinematicStructure mCharacter;
 	std::vector<ofVec2f> breadCrumps;
-
-
-
-public:
 
 	void DrawBoid();
 	void DrawBreadCrumps();

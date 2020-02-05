@@ -5,11 +5,24 @@
 
 void Boid::DrawBoid()
 {
-	ofSetColor(0, 0, 0);
 	//float degree = ofRadToDeg();
 	int radius = 20;
 	int diff = (radius / 3) * 2;
 	int lastPoint = radius + diff;
+	if(mCharacter.mPosition.x > Width + radius)
+	{
+		mCharacter.mPosition.x = 0 - radius;
+	} else if(mCharacter.mPosition.x < 0 - radius)
+	{
+		mCharacter.mPosition.x = Width + radius;
+	}
+	if(mCharacter.mPosition.y > Height + radius)
+	{
+		mCharacter.mPosition.y = 0 - radius;
+	} else if(mCharacter.mPosition.y < 0 - radius)
+	{
+		mCharacter.mPosition.y = Height + radius;
+	}
 	ofTranslate(mCharacter.mPosition.x, mCharacter.mPosition.y);
 	ofRotateZRad(mCharacter.mOrientation);
 	ofDrawSphere(0, 0, radius);
@@ -24,7 +37,7 @@ void Boid::DrawBreadCrumps()
 
 	for each(ofVec2f var in breadCrumps)
 	{
-		ofDrawSphere(var.x, var.y, 10);
+		ofDrawSphere(var.x, var.y, 5);
 	}
 }
 
