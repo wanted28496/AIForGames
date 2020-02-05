@@ -24,6 +24,9 @@ void ofApp::SetupAlgorithms()
 void ofApp::setup(){
 	SetupAlgorithms();
 	startTime = ofGetElapsedTimeMillis();
+	
+	sTarget.SetBoidLocation(ofVec2f(950, 50));
+	//sTarget.SetBoidLocation(ofVec2f(500, 500));
 	/*flock.push_back(sCharacter);
 	flock.push_back(sTarget);*/
 	for(int i = 0; i < 10; i++)
@@ -75,24 +78,32 @@ void ofApp::draw(){
 
 		/*ofSetColor(0, 0, 0);*/
 		//float degree = ofRadToDeg();
-		if(isTimerActive)
-		{
-			float timer = ofGetElapsedTimeMillis() - startTime;
+		float timer = ofGetElapsedTimeMillis() - startTime;
 
-			if(timer >= 200)
-			{
-				sCharacter.InitBreadCrumps();
-				startTime = ofGetElapsedTimeMillis();
-			}
+		if(timer >= 200)
+		{
+			sCharacter.InitBreadCrumps();
+			startTime = ofGetElapsedTimeMillis();
 		}
 		ofSetColor(0, 0, 0);
 		sCharacter.DrawBoid();
 		sCharacter.DrawBreadCrumps();
 	} else
 	{
+		float timer = ofGetElapsedTimeMillis() - startTime;
+
+		if(timer >= 200)
+		{
+			for(int i = 0; i < ( int) flock.size(); i++)
+			{
+				flock[i].InitBreadCrumps();
+			}
+			startTime = ofGetElapsedTimeMillis();
+		}
+		
 		for(int i = 0; i < (int)flock.size(); i++)
 		{
-			flock[i].InitBreadCrumps();
+			
 
 			if(currentAlgorithm == Algorithms::LeaderFlock && i == leaderIndex)
 			{
@@ -214,7 +225,7 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::DoKinematicSeek()
 {
 
-	SteeringOutputStructure steering = MovementAlgorithms::KinematicSeek(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 500);
+	SteeringOutputStructure steering = MovementAlgorithms::KinematicSeek(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 250);
 	sCharacter.SetBoidOrientation(MovementAlgorithms::GetNewOrientation(sCharacter.GetBoidOrientation(), steering.mLinear));
 	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.116, steering));
 	//kSeekAlgo.UpdateKinematic(0.1f, steering, kSeekAlgo.mMaxSpeed);
@@ -265,13 +276,18 @@ void ofApp::DoKinematicSeek()
 
 void ofApp::DoKinematicArrive()
 {
-	SteeringOutputStructure steering = MovementAlgorithms::KinematicArrive(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 150, 20, 2);
-	if(steering.mLinear.length() <= 0)
+	SteeringOutputStructure steering1 = MovementAlgorithms::KinematicArrive(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 150, 20, 2);
+	if(steering1.mLinear.length() <= 0)
 	{
 		isTimerActive = false;
 	}
 
-	sCharacter.SetBoidOrientation(MovementAlgorithms::GetNewOrientation(sCharacter.GetBoidOrientation(), steering.mLinear));
+	SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 3, 0.5, 3, 1, 0.1f);
+
+	SteeringOutputStructure steering;
+	steering.mAngular = (0 * steering1.mAngular) + (1 * steering2.mAngular);
+	steering.mLinear = (1 * steering1.mLinear) + (0 * steering2.mLinear);
+	/*sCharacter.SetBoidOrientation(MovementAlgorithms::GetNewOrientation(sCharacter.GetBoidOrientation(), steering.mLinear));*/
 
 	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.1f, steering));
 	//kArriveAlgo.UpdateKinematic(0.1f, steering);
@@ -281,7 +297,7 @@ void ofApp::DoKinematicArrive()
 
 void ofApp::DoDynamicArrive()
 {
-	SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 20, 5, 20, 50, 3);
+	SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 20, 5, 20, 150, 0.1);
 	if(steering1.mLinear.length() <= 0)
 	{
 		isTimerActive = false;
@@ -299,10 +315,10 @@ void ofApp::DoDynamicArrive()
 
 void ofApp::DoDynamicWander()
 {
-	SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 10, 10, 50, 10, 0.1, 0.1, 0.1, 0.1, 30, 2);
-	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 10));
-	/*SteeringOutputStructure steering = MovementAlgorithms::KinematicWander(sCharacter.GetBoidKinematic(), 100, 30);
-	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.1f, steering));*/
+	/*SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 10, 10, 50, 10, 0.1, 0.1, 0.1, 0.1, 30, 2);
+	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 10));*/
+	SteeringOutputStructure steering = MovementAlgorithms::KinematicWander(sCharacter.GetBoidKinematic(), 100, 30);
+	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.1f, steering));
 }
 
 void ofApp::DoNormalFlocking()
@@ -312,11 +328,11 @@ void ofApp::DoNormalFlocking()
 	{
 		kinematics.push_back(flock[i].GetBoidKinematic());
 	}
-	std::vector<SteeringOutputStructure> steeringList = MovementAlgorithms::NormalFlock(kinematics, 5, 0.1, 30, 10);
+	std::vector<SteeringOutputStructure> steeringList = MovementAlgorithms::NormalFlock(kinematics, 10, 0.1, 30, 10);
 
 	for(int i = 0; i < (int)flock.size(); i++)
 	{
-		flock[i].SetBoidKinematic(MovementAlgorithms::UpdateDynamic(flock[i].GetBoidKinematic(), 0.1, steeringList[i], 5));
+		flock[i].SetBoidKinematic(MovementAlgorithms::UpdateDynamic(flock[i].GetBoidKinematic(), 0.1, steeringList[i], 20));
 	}
 
 }

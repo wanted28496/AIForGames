@@ -1,6 +1,6 @@
 #include "Structures.h"
 #include "..//Boid.h"
-#define decayCoefficient 50000
+#define decayCoefficient 10000
 #define BOIDMASS 5
 #define LEADERMASS 30
 
@@ -165,7 +165,7 @@ SteeringOutputStructure MovementAlgorithms::DynamicFlee(KinematicStructure iChar
 
 SteeringOutputStructure MovementAlgorithms::DynamicEvade(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxAccel, float iPersonalRadius)
 {
-	auto distance = iTarget.mPosition - iCharacter.mPosition;
+	auto distance = iCharacter.mPosition - iTarget.mPosition;
 
 	/// Inverse Square Law
 	 float repulsion = decayCoefficient / (distance.length() * distance.length());
@@ -193,7 +193,7 @@ SteeringOutputStructure MovementAlgorithms::DynamicSepration(KinematicStructure 
 		}
 		SteeringOutputStructure steering = DynamicEvade(iCharacter, iTarget[i], iMaxAccel, iPersonalRadius);
 		//finalSteering.mAngular += proportion * GetNewOrientation(steering.mAngular, steering.mLinear);
-		finalSteering.mLinear += (proportion * steering.mLinear);
+		finalSteering.mLinear += steering.mLinear;
 	}
 
 	if(finalSteering.mLinear.length() > iMaxAccel)
@@ -355,7 +355,7 @@ std::vector<SteeringOutputStructure> MovementAlgorithms::NormalFlock(std::vector
 	for(int i = 0; i < (int)iTarget.size(); i++)
 	{
 		SteeringOutputStructure finalSteering = SteeringOutputStructure();
-		SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(iTarget[i], target, 20, iMaxAccel, iRadius, 50, iTime);
+		SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(iTarget[i], target, 50, iMaxAccel, iRadius, 50, iTime);
 		SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(iTarget[i], target, iMaxRotation, 0.5, 3, iRadius, 0.1f);
 
 		SteeringOutputStructure steering;
@@ -368,9 +368,9 @@ std::vector<SteeringOutputStructure> MovementAlgorithms::NormalFlock(std::vector
 
 		SteeringOutputStructure velocityMatchSteering = MovementAlgorithms::VelocityMatch(iTarget[i], target, iMaxAccel, iTime);
 
-		finalSteering.mLinear = (0.6 * steering.mLinear) + (10 * seperationSteering.mLinear) + (0.4 * velocityMatchSteering.mLinear);
+		finalSteering.mLinear = (0.6 * steering.mLinear) + (0.8 * seperationSteering.mLinear) + (0.4 * velocityMatchSteering.mLinear);
 
-		finalSteering.mAngular = (0.6 * steering.mAngular) + (10 * seperationSteering.mAngular) + (0.4 * velocityMatchSteering.mAngular);
+		finalSteering.mAngular = (0.6 * steering.mAngular) + (0.8 * seperationSteering.mAngular) + (0.4 * velocityMatchSteering.mAngular);
 
 		if(finalSteering.mLinear.length() > iMaxAccel)
 		{
