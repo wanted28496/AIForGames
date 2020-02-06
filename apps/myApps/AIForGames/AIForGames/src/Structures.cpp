@@ -230,7 +230,7 @@ SteeringOutputStructure MovementAlgorithms::Allign(KinematicStructure iCharacter
 
 	//auto rotation = iTarget.mOrientation - iCharacter.mOrientation;
 	auto rotation = MapToRange(iTarget.mOrientation) - MapToRange(iCharacter.mOrientation);
-	std::cout << "Target Orientation: " << iTarget.mOrientation << std::endl << "Character Orienttation: " << iCharacter.mOrientation << std::endl;
+	/*std::cout << "Target Orientation: " << iTarget.mOrientation << std::endl << "Character Orienttation: " << iCharacter.mOrientation << std::endl;*/
 	/*if(rotation > PI)
 	{
 		rotation -= (2*PI);
@@ -238,7 +238,7 @@ SteeringOutputStructure MovementAlgorithms::Allign(KinematicStructure iCharacter
 	{
 		rotation += (2 * PI);
 	}*/
-	std::cout << "Rotation: " << rotation << std::endl;
+	//std::cout << "Rotation: " << rotation << std::endl;
 	auto rotationSize = abs(rotation);
 
 	if(rotationSize < iTargetAngle)
@@ -389,9 +389,70 @@ std::vector<SteeringOutputStructure> MovementAlgorithms::NormalFlock(std::vector
 	return finalSteeringList;
 }
 
-std::vector<SteeringOutputStructure> MovementAlgorithms::LeaderFlock(std::vector<KinematicStructure> iTarget, float iMaxAccel, float iTime, float iRadius, float iMaxRotation)
+std::vector<SteeringOutputStructure> MovementAlgorithms::LeaderFlock(std::vector<KinematicStructure> iTarget, float iMaxAccel, float iTime, float iRadius, float iMaxRotation, int iLeaderIndex)
 {
+	KinematicStructure target = KinematicStructure();
 	std::vector<SteeringOutputStructure> finalSteeringList;
+	float boidMass = 5;
+	for(int i = 0; i < ( int) iTarget.size(); i++)
+	{
+		if(i == iLeaderIndex)
+		{
+			boidMass = 200;
+		} else
+		{
+			boidMass = 5;
+		}
+		target.mPosition.x += (iTarget[i].mPosition.x * boidMass) / (iTarget.size() * boidMass);
+		target.mPosition.y += (iTarget[i].mPosition.y * boidMass) / (iTarget.size() * boidMass);
+		/*target.mVelocity.x += (iTarget[i].mVelocity.x * boidMass) / (iTarget.size() * boidMass);
+		target.mVelocity.y += (iTarget[i].mVelocity.y * boidMass) / (iTarget.size() * boidMass);*/
+	}
+
+	for(int i = 0; i < ( int) iTarget.size(); i++)
+	{
+		SteeringOutputStructure finalSteering = SteeringOutputStructure();
+		SteeringOutputStructure steering;
+
+		if(i == iLeaderIndex)
+		{
+			steering = MovementAlgorithms::KinematicWander(iTarget[i], 100, 30);
+		} else
+		{
+			SteeringOutputStructure steering1 = MovementAlgorithms::DynamicArrive(iTarget[i], target, 50, iMaxAccel, iRadius, 50, iTime);
+			SteeringOutputStructure steering2 = MovementAlgorithms::LookWhereYouAreGoing(iTarget[i], target, iMaxRotation, 0.5, 3, iRadius, 0.1f);
+			steering.mAngular = (0 * steering1.mAngular) + (1 * steering2.mAngular);
+			steering.mLinear = (1 * steering1.mLinear) + (0 * steering2.mLinear);
+		}
+		 
+		
+
+		
+
+		/*SteeringOutputStructure seekSteering = MovementAlgorithms::KinematicArrive(iTarget[i], target, iMaxAccel, iRadius, iTime);*/
+
+		SteeringOutputStructure seperationSteering = MovementAlgorithms::DynamicSepration(iTarget[i], iTarget, 50, iRadius, i);
+
+		SteeringOutputStructure velocityMatchSteering = MovementAlgorithms::VelocityMatch(iTarget[i], iTarget[iLeaderIndex], iMaxAccel, iTime);
+
+		finalSteering.mLinear = (0.6 * steering.mLinear) + (0.8 * seperationSteering.mLinear) + (0.4 * velocityMatchSteering.mLinear);
+
+		finalSteering.mAngular = (0.6 * steering.mAngular) + (0.8 * seperationSteering.mAngular) + (0.4 * velocityMatchSteering.mAngular);
+
+		if(finalSteering.mLinear.length() > iMaxAccel)
+		{
+			finalSteering.mLinear.normalize();
+			finalSteering.mLinear *= iMaxAccel;
+		}
+
+		if(abs(finalSteering.mAngular) > iMaxRotation)
+		{
+			finalSteering.mAngular /= abs(finalSteering.mAngular);
+			finalSteering.mAngular *= iMaxRotation;
+		}
+
+		finalSteeringList.push_back(finalSteering);
+	}
 	return finalSteeringList;
 }
 

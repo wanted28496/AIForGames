@@ -57,8 +57,11 @@ void ofApp::update(){
 	case Algorithms::NormalFlock:
 		DoNormalFlocking();
 		break;
-	case Algorithms::Wander:
+	case Algorithms::DynamicWander:
 		DoDynamicWander();
+		break;
+	case Algorithms::KinematicWander:
+		DoKinematicWander();
 		break;
 
 	}
@@ -103,8 +106,11 @@ void ofApp::draw(){
 		
 		for(int i = 0; i < (int)flock.size(); i++)
 		{
-			
+			flock[i].DrawBreadCrumps();
+		}
 
+		for(int i = 0; i < ( int) flock.size(); i++)
+		{
 			if(currentAlgorithm == Algorithms::LeaderFlock && i == leaderIndex)
 			{
 				ofSetColor(0, 250, 0);
@@ -113,15 +119,15 @@ void ofApp::draw(){
 				ofSetColor(0, 0, 0);
 			}
 			flock[i].DrawBoid();
-			flock[i].DrawBreadCrumps();
-
 		}
+		
 	}
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+
 	/// Use Key to know which algorithm to follow
 	/// 0 is Kinematic Seek around 4 edges
 	switch (key)
@@ -147,12 +153,19 @@ void ofApp::keyPressed(int key){
 			sCharacter.ClearBreadCrumps();
 			break;
 		case 51:
-			currentAlgorithm = Algorithms::Wander;
+			currentAlgorithm = Algorithms::KinematicWander;
 			sTarget.SetBoidLocation(sCharacter.GetBoidLocation());
 			isTimerActive = true;
 			sCharacter.ClearBreadCrumps();
 			break;
 		case 52:
+			currentAlgorithm = Algorithms::DynamicWander;
+			sTarget.SetBoidLocation(sCharacter.GetBoidLocation());
+			isTimerActive = true;
+			sCharacter.ClearBreadCrumps();
+			break;
+			break;
+		case 53:
 			currentAlgorithm = Algorithms::NormalFlock;
 			isTimerActive = true;
 			for(int i = 0; i < (int)flock.size(); i++)
@@ -160,12 +173,18 @@ void ofApp::keyPressed(int key){
 				flock[i].ClearBreadCrumps();
 			}
 			break;
-		case 53:
+		case 54:
 			currentAlgorithm = Algorithms::LeaderFlock;
 			isTimerActive = true;
 			for(int i = 0; i < (int)flock.size(); i++)
 			{
 				flock[i].ClearBreadCrumps();
+			}
+			break;
+		case 110:
+			if(currentAlgorithm == Algorithms::LeaderFlock)
+			{
+				leaderIndex = (int)ofRandom(flock.size());
 			}
 			break;
 
@@ -315,8 +334,13 @@ void ofApp::DoDynamicArrive()
 
 void ofApp::DoDynamicWander()
 {
-	/*SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 10, 10, 50, 10, 0.1, 0.1, 0.1, 0.1, 30, 2);
-	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 10));*/
+	SteeringOutputStructure steering = MovementAlgorithms::DynamicWander(sCharacter.GetBoidKinematic(), sTarget.GetBoidKinematic(), 10, 10, 50, 10, 0.1, 0.1, 0.1, 0.1, 30, 2);
+	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateDynamic(sCharacter.GetBoidKinematic(), 0.1f, steering, 10));
+
+}
+
+void ofApp::DoKinematicWander()
+{
 	SteeringOutputStructure steering = MovementAlgorithms::KinematicWander(sCharacter.GetBoidKinematic(), 100, 30);
 	sCharacter.SetBoidKinematic(MovementAlgorithms::UpdateKinematic(sCharacter.GetBoidKinematic(), 0.1f, steering));
 }
@@ -339,6 +363,23 @@ void ofApp::DoNormalFlocking()
 
 void ofApp::DoLeaderFlocking()
 {
+	std::vector<KinematicStructure> kinematics;
+	for(int i = 0; i < ( int) flock.size(); i++)
+	{
+		kinematics.push_back(flock[i].GetBoidKinematic());
+	}
+	std::vector<SteeringOutputStructure> steeringList = MovementAlgorithms::LeaderFlock(kinematics, 10, 0.1, 30, 10, leaderIndex);
+
+	flock[leaderIndex].SetBoidKinematic(MovementAlgorithms::UpdateKinematic(flock[leaderIndex].GetBoidKinematic(), 0.1f, steeringList[leaderIndex]));
+
+	for(int i = 0; i < ( int) flock.size(); i++)
+	{
+		if(i == leaderIndex)
+		{
+			continue;
+		}
+		flock[i].SetBoidKinematic(MovementAlgorithms::UpdateDynamic(flock[i].GetBoidKinematic(), 0.1, steeringList[i], 20));
+	}
 }
 
 

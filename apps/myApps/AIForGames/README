@@ -1,0 +1,35 @@
+//// Mit Doshi
+/// U1212719
+
+/// AI For Games Read Me
+
+/// Starting The Project:
+1. Download the project from Github.
+2. Copy the entire AIForGames folder from app/myApps and Paste it to the apps/myApps of Openframework for VS, 
+(I included it in my project but due to git ignore some of the precompiled files are not being uploaded thereby the project would not run on the open framework included with the project)
+3. Run the .sln file from AIForGames.
+4. Hit Run
+
+/// Files
+
+1. Structure.h and Structure.cpp: these files contain the definition and declaration for Kinematic Structure, Steering Structure, and All Algorithms
+
+2. Boid.h and Boid.cpp: these files contain the definition and declaration related to boid, it has functions to draw boid and breadcrumbs as the boid moves
+
+3. OfApp.cpp: this file runs the game and all algorithms are called from within this file
+
+/// Movement Algorithms:
+
+1. To Test Kinematic Seek Press Key "0". The project always starts with Kinematic Seek algorithm which seeks the 4 corners in the clockwise direction
+
+2. To test Kinematic Arrive, Press Key "1" and click anywhere in the window, the boid will arrive at the location clicked by the user
+
+3. To test Dynamic Arrive, Press Key "2" and click anywhere in the window, the boid will arrive at the location clicked by the user
+
+4. To test Kinematic Wander, Press Key "3"
+
+5. To test Dynamic Wander, Press Key "4"
+
+6. To test Flock To Center of Mass, Press "5"
+
+7. To test Flock To Leader, Press "6", to change leader in this algorithm press key "n" which will randomly assign a leader from within boids 

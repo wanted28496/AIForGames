@@ -61,7 +61,7 @@ struct MovementAlgorithms
 	static SteeringOutputStructure VelocityMatch(KinematicStructure iCharacter, KinematicStructure iTarget, float iMaxAccel, float iTime);
 
 	static std::vector<SteeringOutputStructure> NormalFlock(std::vector< KinematicStructure> iTarget, float iMaxAccel, float iTime, float iRadius, float iMaxRotation);
-	static std::vector <SteeringOutputStructure> LeaderFlock(std::vector< KinematicStructure> iTarget, float iMaxAccel, float iTime, float iRadius, float iMaxRotation);
+	static std::vector <SteeringOutputStructure> LeaderFlock(std::vector< KinematicStructure> iTarget, float iMaxAccel, float iTime, float iRadius, float iMaxRotation, int ileaderIndex);
 
 };
 

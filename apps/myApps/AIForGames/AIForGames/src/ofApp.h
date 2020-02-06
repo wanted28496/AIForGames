@@ -22,20 +22,18 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		bool playKinematicSeek = false;
+
 		void DoKinematicSeek();
 
-		bool playKinematicArrive = false;
 		void DoKinematicArrive();
 
-		bool playDynamicArrive = false;
 		void DoDynamicArrive();
 
-		bool playDynamicWander = false;
 		void DoDynamicWander();
 
-		bool playNormalFlocking = false;
-		bool playLeaderFlocking = false;
+		void DoKinematicWander();
+
+
 		void DoNormalFlocking();
 		void DoLeaderFlocking();
 
@@ -46,7 +44,8 @@ enum Algorithms
 	Kinematicseek,
 	KinematicArrive,
 	DynamicArrive,
-	Wander,
+	KinematicWander,
+	DynamicWander,
 	NormalFlock,
 	LeaderFlock,
 };
