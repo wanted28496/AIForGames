@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Boid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Structures.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\Graph.cpp">
+      <Filter>PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\Schemes\SLCGraph.cpp">
+      <Filter>PathFinding\Schemes</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\AStar.cpp">
+      <Filter>PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\Dijkstra.cpp">
+      <Filter>PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\NodeRecord.cpp">
+      <Filter>PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\Schemes\LargeGraphCreator.cpp">
+      <Filter>PathFinding\Schemes</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\Schemes\TileGraph.cpp">
+      <Filter>PathFinding\Schemes</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementAlgorithms\Dynamic\DynamicPathFollow.cpp">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementAlgorithms\Kinematic\KinematicArrive.cpp">
+      <Filter>MovementAlgorithms\Kinematic</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementAlgorithms\Kinematic\KinematicSeek.cpp">
+      <Filter>MovementAlgorithms\Kinematic</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementAlgorithms\Dynamic\DynamicArrive.cpp">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementAlgorithms\Dynamic\DynamicAlign.cpp">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PathFinding">
+      <UniqueIdentifier>{5a116c30-497e-4cc2-a137-c9ca31092094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PathFinding\Schemes">
+      <UniqueIdentifier>{a2123b6e-9daa-4463-8b97-f1e7bd9dee3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MovementAlgorithms">
+      <UniqueIdentifier>{1b30d3e6-eefd-432d-8449-cd00d93d2d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MovementAlgorithms\Dynamic">
+      <UniqueIdentifier>{d0cc7bb2-87bc-4fa6-8aff-74a4bce55a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MovementAlgorithms\Kinematic">
+      <UniqueIdentifier>{90f9a83e-39f2-4bcd-9548-3e8f279fa302}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Boid.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Structures.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\Graph.h">
+      <Filter>PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\Schemes\SLCGraph.h">
+      <Filter>PathFinding\Schemes</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\AStar.h">
+      <Filter>PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\Dijkstra.h">
+      <Filter>PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\NodeRecord.h">
+      <Filter>PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\Schemes\LargeGraphCreator.h">
+      <Filter>PathFinding\Schemes</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\Schemes\TileGraph.h">
+      <Filter>PathFinding\Schemes</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementAlgorithms\Dynamic\DynamicPathFollow.h">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementAlgorithms\Kinematic\KinematicArrive.h">
+      <Filter>MovementAlgorithms\Kinematic</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementAlgorithms\Kinematic\KinematicSeek.h">
+      <Filter>MovementAlgorithms\Kinematic</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementAlgorithms\Dynamic\DynamicArrive.h">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementAlgorithms\Dynamic\DynamicAlign.h">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>
