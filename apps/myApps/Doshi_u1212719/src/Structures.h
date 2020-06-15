@@ -1,8 +1,8 @@
 #pragma once
 #include "ofMain.h"
 
-#define Width 1024
-#define Height 1024
+#define Width 1000
+#define Height 1000
 #define PIE 3.14159f
 
 /*

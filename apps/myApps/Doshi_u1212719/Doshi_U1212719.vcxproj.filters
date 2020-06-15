@@ -49,6 +49,45 @@
     <ClCompile Include="PathFinding\Schemes\SmallGraph.cpp">
       <Filter>PathFinding\Schemes</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTActionBase.cpp">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTSleep.cpp">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTWalk.cpp">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTDig.cpp">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementAlgorithms\Dynamic\DynamicWander.cpp">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\DT.cpp">
+      <Filter>Behavior Algorithms\Decision Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\DTManager.cpp">
+      <Filter>Behavior Algorithms\Decision Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\DTNode.cpp">
+      <Filter>Behavior Algorithms\Decision Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BT.cpp">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BTAction.cpp">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BTBlackboard.cpp">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BTTick.cpp">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorAlgorithms\GOAP\Goap.cpp">
+      <Filter>Behavior Algorithms\GOAP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -68,6 +107,21 @@
     </Filter>
     <Filter Include="MovementAlgorithms\Kinematic">
       <UniqueIdentifier>{90f9a83e-39f2-4bcd-9548-3e8f279fa302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Algorithms">
+      <UniqueIdentifier>{81af4b9b-1726-4c22-b81d-c6d208c39e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Algorithms\Behavior Trees">
+      <UniqueIdentifier>{f5d54270-f320-4b56-aef0-ef51f6924db9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Algorithms\Decision Tree">
+      <UniqueIdentifier>{073d4942-f810-442c-b341-da0def26cff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Algorithms\GOAP">
+      <UniqueIdentifier>{94cab514-337e-410d-86ba-28959b5bc33b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behavior Algorithms\Decision Tree\Actions">
+      <UniqueIdentifier>{6fd74035-e6e5-4351-81cf-c47a1e82c55f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +169,51 @@
     </ClInclude>
     <ClInclude Include="PathFinding\Schemes\SmallGraph.h">
       <Filter>PathFinding\Schemes</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\AIManager.h">
+      <Filter>Behavior Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTActionBase.h">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTLearnedActions.h">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTSleep.h">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTWalk.h">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTDig.h">
+      <Filter>Behavior Algorithms\Decision Tree\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementAlgorithms\Dynamic\DynamicWander.h">
+      <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\DT.h">
+      <Filter>Behavior Algorithms\Decision Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\DTManager.h">
+      <Filter>Behavior Algorithms\Decision Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\DTNode.h">
+      <Filter>Behavior Algorithms\Decision Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BT.h">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BTAction.h">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BTBlackboard.h">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BTTick.h">
+      <Filter>Behavior Algorithms\Behavior Trees</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAlgorithms\GOAP\Goap.h">
+      <Filter>Behavior Algorithms\GOAP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

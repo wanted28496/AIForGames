@@ -104,7 +104,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir)BehaviorAlgorithms;$(ProjectDir)BehaviorAlgorithms\BehaviorTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree\Actions;$(ProjectDir)BehaviorAlgorithms\GOAP;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
@@ -124,7 +124,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir)BehaviorAlgorithms;$(ProjectDir)BehaviorAlgorithms\BehaviorTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree\Actions;$(ProjectDir)BehaviorAlgorithms\GOAP;$(ProjectDir)BehaviorAlgorithms;$(ProjectDir)BehaviorAlgorithms\BehaviorTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree\Actions;$(ProjectDir)BehaviorAlgorithms\GOAP;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -144,7 +144,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir)BehaviorAlgorithms;$(ProjectDir)BehaviorAlgorithms\BehaviorTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree\Actions;$(ProjectDir)BehaviorAlgorithms\GOAP;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -167,7 +167,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)PathFinding;$(ProjectDir)PathFinding\Schemes;$(ProjectDir)MovementAlgorithms\Dynamic;$(ProjectDir)MovementAlgorithms\Kinematic;$(ProjectDir)BehaviorAlgorithms;$(ProjectDir)BehaviorAlgorithms\BehaviorTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree\Actions;$(ProjectDir)BehaviorAlgorithms\GOAP;$(ProjectDir)BehaviorAlgorithms;$(ProjectDir)BehaviorAlgorithms\BehaviorTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree;$(ProjectDir)BehaviorAlgorithms\DecisionTree\Actions;$(ProjectDir)BehaviorAlgorithms\GOAP;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
@@ -184,9 +184,22 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BT.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BTAction.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BTBlackboard.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\BehaviorTree\BTTick.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTActionBase.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTDig.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTSleep.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\Actions\DTWalk.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\DT.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\DTManager.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\DecisionTree\DTNode.cpp" />
+    <ClCompile Include="BehaviorAlgorithms\GOAP\Goap.cpp" />
     <ClCompile Include="MovementAlgorithms\Dynamic\DynamicAlign.cpp" />
     <ClCompile Include="MovementAlgorithms\Dynamic\DynamicArrive.cpp" />
     <ClCompile Include="MovementAlgorithms\Dynamic\DynamicPathFollow.cpp" />
+    <ClCompile Include="MovementAlgorithms\Dynamic\DynamicWander.cpp" />
     <ClCompile Include="MovementAlgorithms\Kinematic\KinematicArrive.cpp" />
     <ClCompile Include="MovementAlgorithms\Kinematic\KinematicSeek.cpp" />
     <ClCompile Include="PathFinding\AStar.cpp" />
@@ -202,9 +215,24 @@
     <ClCompile Include="src\Structures.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviorAlgorithms\AIManager.h" />
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BT.h" />
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BTAction.h" />
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BTBlackboard.h" />
+    <ClInclude Include="BehaviorAlgorithms\BehaviorTree\BTTick.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTActionBase.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTDig.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTLearnedActions.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTSleep.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\Actions\DTWalk.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\DT.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\DTManager.h" />
+    <ClInclude Include="BehaviorAlgorithms\DecisionTree\DTNode.h" />
+    <ClInclude Include="BehaviorAlgorithms\GOAP\Goap.h" />
     <ClInclude Include="MovementAlgorithms\Dynamic\DynamicAlign.h" />
     <ClInclude Include="MovementAlgorithms\Dynamic\DynamicArrive.h" />
     <ClInclude Include="MovementAlgorithms\Dynamic\DynamicPathFollow.h" />
+    <ClInclude Include="MovementAlgorithms\Dynamic\DynamicWander.h" />
     <ClInclude Include="MovementAlgorithms\Kinematic\KinematicArrive.h" />
     <ClInclude Include="MovementAlgorithms\Kinematic\KinematicSeek.h" />
     <ClInclude Include="PathFinding\AStar.h" />

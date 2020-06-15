@@ -14,15 +14,21 @@ SteeringOutputStructure DynamicPathFollow::GetSteering(KinematicStructure iPlaye
 	{
 		auto currentTarget = iPath.front();
 		auto d = iPlayer.mPosition - currentTarget.mPosition;
-		if (iPath.size() != 1 && d.length() < iSmoothingRadius)
+		if (d.length() < iSmoothingRadius)
 		{
 			iPath.pop();
-			currentTarget = iPath.front();
 		}
-		return DynamicArrive::GetSteering(iPlayer, currentTarget);
+		if (!iPath.empty())
+		{
+			return DynamicArrive::GetSteering(iPlayer, currentTarget);
+		}
 	}
-	else
-	{
-		return DynamicArrive::GetSteering(iPlayer, iPlayer, iMaxVel, iMaxAccel, iSlowRadius, iTargetRadius, iTargetTime);
-	}
+
+	iPlayer.mVelocity = ofVec2f(0.0f, 0.0f);
+	iPlayer.mRotation = 0;
+	return SteeringOutputStructure();
+	//else
+	//{
+	//	return DynamicArrive::GetSteering(iPlayer, iPlayer, iMaxVel, iMaxAccel, iSlowRadius, iTargetRadius, iTargetTime);
+	//}
 }

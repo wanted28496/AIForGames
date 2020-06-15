@@ -1,48 +1,44 @@
 #include "Boid.h"
 #include "ofMain.h"
 
+const ofColor Boid::mDefaultColor = ofColor::darkBlue;
 
+void Boid::changeSteeringFunction(std::function<SteeringOutputStructure()>& iFunction)
+{
+	mSteering = iFunction;
+	mCanSteer = true;
+}
 
 void Boid::DrawBoid()
 {
 	mTrail.DrawCrumps();
-	ofSetColor(ofColor::darkBlue);
+	ofSetColor(mColor);
+
 	ofPushMatrix();
+
 	ofTranslate(mKinematic.mPosition.x, mKinematic.mPosition.y);
 	ofRotateZRad(mKinematic.mOrientation);
-	ofDrawCircle(0, 0, 13.0f);
-	ofDrawTriangle(0, -13.0f, 0, 13.0f, 13.0f * 2.0f, 0);
+	ofDrawCircle(0, 0, 10.0f);
+	ofDrawTriangle(0, -10.0f, 0, 10.0f, 10.0f * 2.0f, 0);
+
 	ofPopMatrix();
-	//float degree = ofRadToDeg();
-	/*int radius = 20;
-	int diff = (radius / 3) * 2;
-	int lastPoint = radius + diff;
-	if(mCharacter.mPosition.x > Width + radius)
-	{
-		mCharacter.mPosition.x = 0 - radius;
-	} else if(mCharacter.mPosition.x < 0 - radius)
-	{
-		mCharacter.mPosition.x = Width + radius;
-	}
-	if(mCharacter.mPosition.y > Height + radius)
-	{
-		mCharacter.mPosition.y = 0 - radius;
-	} else if(mCharacter.mPosition.y < 0 - radius)
-	{
-		mCharacter.mPosition.y = Height + radius;
-	}
-	ofTranslate(mCharacter.mPosition.x, mCharacter.mPosition.y);
-	ofRotateZRad(mCharacter.mOrientation);
-	ofDrawSphere(0, 0, radius);
-	ofDrawTriangle(diff, -diff, diff, diff, lastPoint, 0);
-	ofRotateZRad(-mCharacter.mOrientation);
-	ofTranslate(-mCharacter.mPosition.x, -mCharacter.mPosition.y);*/
+
 }
 
 void Boid::UpdateBoid(float iDeltaTime)
 {
-	mKinematic.UpdateDynamicMotion(mSteering(), iDeltaTime);
+
+	if (mCanSteer)
+	{
+		mKinematic.UpdateDynamicMotion(mSteering(), iDeltaTime);
+	}
+
 	mTrail.UpdateCrumps();
+}
+
+void Boid::setColor(ofColor iColor)
+{
+	mColor = iColor;
 }
 
 void Boid::SetBoidPosition(float iX, float iY)
@@ -60,21 +56,27 @@ void Boid::SetTarget(KinematicStructure iTarget)
 	mTargets.push(iTarget);
 }
 
-void Boid::SetTaregts(queue<KinematicStructure> iTargets)
+void Boid::SetTargets(queue<KinematicStructure> iTargets)
 {
 	mTargets = iTargets;
 }
 
-Boid::Boid() : Boid(ofVec2f(10,10))
+Boid::Boid() : Boid(ofVec2f(10,10), mDefaultColor)
 {
 }
 
-Boid::Boid(ofVec2f iPosition)
+Boid::Boid(ofVec2f iPosition) : Boid(iPosition, mDefaultColor)
+{
+}
+
+Boid::Boid(ofVec2f iPosition, ofColor iColor)
 {
 	mKinematic.mPosition = iPosition;
+	mColor = iColor;
 	mKinematic.mBoid = this;
 	mTargets.push(mKinematic);
 	mTrail.mBoid = this;
+	mSteering = []() { return SteeringOutputStructure(); };
 }
 
 
@@ -86,9 +88,8 @@ void BreadCrumps::DrawCrumps()
 {
 	for (auto point : mCrumps)
 	{
-		ofSetColor(ofColor::darkBlue);
+		ofSetColor(mBoid->mColor);
 		ofDrawCircle(point.x - mSize / 2, point.y - mSize / 2, mSize / 2);
-		//ofDrawRectangle(point.x - mSize / 2, point.y - mSize / 2, mSize, mSize);
 	}
 }
 
@@ -107,4 +108,29 @@ void BreadCrumps::UpdateCrumps()
 	{
 		mCounter++;
 	}
+}
+
+void AIBoid::DrawBoid()
+{
+	mTrail.DrawCrumps();
+
+	ofSetColor(mColor);
+
+	ofPushMatrix();
+
+	ofTranslate(mKinematic.mPosition.x, mKinematic.mPosition.y);
+	ofRotateZRad(mKinematic.mOrientation);
+	ofDrawCircle(0, 0, 10.0f);
+	ofDrawTriangle(0, -10.0f, 0, 10.0f, 10.0f * 2.0f, 0);
+
+	/// Energy Consumed each turn
+	float x = mEnergy * 5.0f;
+	float y = abs(tan(mEnergy * 0.3f * PI / 180)) * x;
+
+	///Drawing Detection Radius
+	ofSetColor(ofColor(255, 255, 0, 100));
+	ofDrawTriangle(0, 0, x, y, x, -y);
+
+
+	ofPopMatrix();
 }

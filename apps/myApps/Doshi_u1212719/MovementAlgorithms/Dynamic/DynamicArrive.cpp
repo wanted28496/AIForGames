@@ -3,7 +3,7 @@
 float DynamicArrive::mMaxVel = 100;
 float DynamicArrive::mMaxAccel = 20;
 float DynamicArrive::mSlowRadius = 175;
-float DynamicArrive::mTargetRadius = 50;
+float DynamicArrive::mTargetRadius = 45;
 float DynamicArrive::mTargetTime = 1;
 
 SteeringOutputStructure DynamicArrive::GetSteering(KinematicStructure iPlayer, KinematicStructure iTarget, float iMaxVel, float iMaxAccel, float iSlowRadius, float iTargetRadius, float iTargetTime)

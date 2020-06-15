@@ -17,6 +17,12 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 
+		void SpawnBoids();
+		void SpawnCopyForGoap();
+
+		void CreateDT();
+		void CreateBT();
+
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -29,8 +35,17 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-private:
+public:
 	class Boid* mPlayer;
+	class Boid* mDigger;
+	class Boid* mKiller;
 	class TileGraph* mTileGraph;
+
+	class AIManager* mDiggerManager;
+	class AIManager* mKillerManager;
+
+	bool mF1 = true;
+	bool mF2 = true;
+	bool mF3 = false;
 		
 };
