@@ -91,9 +91,9 @@ void LargeGraphCreator::GenerateGraph()
 
 	mGraph.mNodes = vector<int>(position.begin(), position.end());
 
-	for (int i = 0; i < mGraph.mNodes.size(); i++)
+	for (size_t i = 0; i < mGraph.mNodes.size(); i++)
 	{
-		int edgeCount = mDistribution(mGenerator) % 30 + 1;
+		int edgeCount = mDistribution(mGenerator) % 10 + 1;
 		for (int j = 0; j < edgeCount; j++)
 		{
 			int destination = i;

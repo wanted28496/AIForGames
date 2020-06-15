@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <Psapi.h>
 #include "AStar.h"
-#include "SLCGraph.h"
+#include "SmallGraph.h"
 #include "LargeGraphCreator.h"
 #include "TileGraph.h"
 
@@ -49,7 +49,7 @@ void PrintMemoryConsumption(DWORDLONG iVirtual, DWORDLONG iPhy) {
 
 
 void RunSmallGraph() {
-	
+
 	vector<int> smallGraphMap =
 	{
 		///		1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3
@@ -89,7 +89,7 @@ void RunSmallGraph() {
 		///		1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3
 	};
 
-	SLCGraph smallGraph(33, smallGraphMap);
+	SmallGraph smallGraph(33, smallGraphMap);
 	int x, y;
 	do
 	{
@@ -119,7 +119,7 @@ void RunSmallGraph() {
 			cout << endl;
 			endVirtual = GetVirtualMemory();
 			endPhysical = GetPhysicalMemory();
-			PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
+			/*PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);*/
 			cout << endl;
 		}
 
@@ -137,7 +137,7 @@ void RunSmallGraph() {
 			cout << endl;
 			endVirtual = GetVirtualMemory();
 			endPhysical = GetPhysicalMemory();
-			PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
+			/*PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);*/
 			cout << endl;
 		}
 
@@ -153,7 +153,7 @@ void RunSmallGraph() {
 			cout << endl;
 			endVirtual = GetVirtualMemory();
 			endPhysical = GetPhysicalMemory();
-			PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
+			/*PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);*/
 			cout << endl;
 		}
 
@@ -169,10 +169,10 @@ void RunSmallGraph() {
 			cout << endl;
 			endVirtual = GetVirtualMemory();
 			endPhysical = GetPhysicalMemory();
-			PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
+			/*PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);*/
 			cout << endl;
 		}
-	} while(x != -1 && y != -1);
+	} while (x != -1 && y != -1);
 }
 
 void RunLargeGraph() {
@@ -182,13 +182,13 @@ void RunLargeGraph() {
 	DWORDLONG endPhysical;
 	cout << endl;
 	cout << "-------------------------------------------------" << endl;
-	int count, x , y;
+	int count, x, y;
 	do
 	{
 		cout << "Enter number of Nodes to create Graph, minimum 1000 max 10000 : ";
 		cin >> count;
 	} while (count < 1000 || count > 10000);
-	
+
 	LargeGraphCreator largeGraph(count);
 	do
 	{
@@ -231,12 +231,12 @@ void RunLargeGraph() {
 			cout << endl;
 			endVirtual = GetVirtualMemory();
 			endPhysical = GetPhysicalMemory();
-			PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
+			/*PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);*/
 			cout << endl;
 			cout << endl;
 		}
 
-		 ///Eculidian Disatance of Hueristic
+		///Eculidian Disatance of Hueristic
 		{
 			largeGraph.UseEuclideanHuerisitc();
 			auto path = AStar::findPath(x, y, largeGraph.getGraph());
@@ -311,7 +311,7 @@ void RunLargeGraph() {
 		//	PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
 		//	cout << endl;*/
 		//}
-		
+
 		/// Random Hueistic 0 - MAX
 		//{
 		//	// Change this value for change in constant Hueristic
@@ -368,31 +368,31 @@ void RunLargeGraph() {
 		//	cout << endl;*/
 		//}
 
-        ///Dijstra Algorithm
+		///Dijstra Algorithm
 		{
-		largeGraph.UseDijkstraAlgorith();
-		auto path = AStar::findPath(x, y, largeGraph.getGraph());
-		cout << "Total Cost: " << largeGraph.getGraph().GetCost(path) << endl;
-		cout << "Dijkstra path is: ";
-		for (auto node : path)
-		{
-			cout << node << " -> ";
-		}
-		cout << endl;
-		endVirtual = GetVirtualMemory();
-		cout << endl;
-		endPhysical = GetPhysicalMemory();
-		//PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
-		//cout << endl;
+			largeGraph.UseDijkstraAlgorith();
+			auto path = AStar::findPath(x, y, largeGraph.getGraph());
+			cout << "Total Cost: " << largeGraph.getGraph().GetCost(path) << endl;
+			cout << "Dijkstra path is: ";
+			for (auto node : path)
+			{
+				cout << node << " -> ";
+			}
+			cout << endl;
+			endVirtual = GetVirtualMemory();
+			cout << endl;
+			endPhysical = GetPhysicalMemory();
+			//PrintMemoryConsumption((endVirtual > startVirtual) ? endVirtual - startVirtual : startVirtual - endVirtual, (endPhysical > startPhysical) ? endPhysical - startPhysical : startPhysical - endPhysical);
+			//cout << endl;
 		}
 
 	} while (x != -1 && y != -1);
-	
+
 
 }
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 
 	int index;
 	do
@@ -414,7 +414,7 @@ void ofApp::setup(){
 		}
 
 	} while (index != 3);
-	
+
 
 	mTileGraph = new TileGraph(Width, Height, 50, 50);
 	mTileGraph->GenerateObstacles(100);
@@ -430,38 +430,38 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 	mPlayer->UpdateBoid(ofGetLastFrameTime());
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	mTileGraph->DrawTileGraph();
 	mPlayer->DrawBoid();
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button) {
 
 	auto path = AStar::findPath(mTileGraph->QauntizePosition(mPlayer->mKinematic.mPosition), mTileGraph->QauntizePosition(ofVec2f(x, y)), mTileGraph->GetGraph());
 
@@ -484,31 +484,31 @@ void ofApp::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
+void ofApp::mouseEntered(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
+void ofApp::mouseExited(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::gotMessage(ofMessage msg) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 }

@@ -3,7 +3,7 @@
 
 float DynamicPathFollow::mMaxVel = 100;
 float DynamicPathFollow::mMaxAccel = 20;
-float DynamicPathFollow::mSmoothingRadius = 40;
+float DynamicPathFollow::mSmoothingRadius = 45;
 float DynamicPathFollow::mSlowRadius = 125;
 float DynamicPathFollow::mTargetRadius = 15;
 float DynamicPathFollow::mTargetTime = 1;

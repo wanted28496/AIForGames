@@ -16,9 +16,6 @@
     <ClCompile Include="PathFinding\Graph.cpp">
       <Filter>PathFinding</Filter>
     </ClCompile>
-    <ClCompile Include="PathFinding\Schemes\SLCGraph.cpp">
-      <Filter>PathFinding\Schemes</Filter>
-    </ClCompile>
     <ClCompile Include="PathFinding\AStar.cpp">
       <Filter>PathFinding</Filter>
     </ClCompile>
@@ -48,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="MovementAlgorithms\Dynamic\DynamicAlign.cpp">
       <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding\Schemes\SmallGraph.cpp">
+      <Filter>PathFinding\Schemes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,9 +83,6 @@
     <ClInclude Include="PathFinding\Graph.h">
       <Filter>PathFinding</Filter>
     </ClInclude>
-    <ClInclude Include="PathFinding\Schemes\SLCGraph.h">
-      <Filter>PathFinding\Schemes</Filter>
-    </ClInclude>
     <ClInclude Include="PathFinding\AStar.h">
       <Filter>PathFinding</Filter>
     </ClInclude>
@@ -115,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="MovementAlgorithms\Dynamic\DynamicAlign.h">
       <Filter>MovementAlgorithms\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding\Schemes\SmallGraph.h">
+      <Filter>PathFinding\Schemes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

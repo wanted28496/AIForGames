@@ -39,7 +39,7 @@ public:
 
 	vector<DWEdge> GetOutgoingEdgesFromSource(int iNode);
 
-	friend class SLCGraph;
+	friend class SmallGraph;
 	friend class LargeGraphCreator;
 	friend class TileGraph;
 };

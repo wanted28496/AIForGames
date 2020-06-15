@@ -24,7 +24,7 @@ void Graph::SortDirectWeightedEdges()
 int Graph::GetCost(vector<int> iPath)
 {
 	int cost = 0;
-	for (int i = 0; i < iPath.size() - 1; i++)
+	for (size_t i = 0; i < iPath.size() - 1; i++)
 	{
 		auto nextEdge = find_if(mEdges.begin(), mEdges.end(), 
 			[iPath, i](DWEdge edge) { return edge.mSource == iPath[i] && edge.mSink == iPath[i + 1]; });
@@ -37,12 +37,12 @@ vector<DWEdge> Graph::GetOutgoingEdgesFromSource(int iNode)
 {
 	vector<DWEdge> outEdges;
 	/// Finds the first sink edge
-	for (int i = 0; i < mEdges.size(); i++)
+	for (size_t i = 0; i < mEdges.size(); i++)
 	{
 		if (mEdges[i].mSource == iNode)
 		{
 			/// From First sink edge find all the other sink edges
-			for (int j = i; j < mEdges.size() && mEdges[j].mSource == iNode; j++)
+			for (size_t j = i; j < mEdges.size() && mEdges[j].mSource == iNode; j++)
 			{
 				outEdges.push_back(mEdges[j]);
 			}

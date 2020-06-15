@@ -194,7 +194,7 @@
     <ClCompile Include="PathFinding\Graph.cpp" />
     <ClCompile Include="PathFinding\NodeRecord.cpp" />
     <ClCompile Include="PathFinding\Schemes\LargeGraphCreator.cpp" />
-    <ClCompile Include="PathFinding\Schemes\SLCGraph.cpp" />
+    <ClCompile Include="PathFinding\Schemes\SmallGraph.cpp" />
     <ClCompile Include="PathFinding\Schemes\TileGraph.cpp" />
     <ClCompile Include="src\Boid.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -212,7 +212,7 @@
     <ClInclude Include="PathFinding\Graph.h" />
     <ClInclude Include="PathFinding\NodeRecord.h" />
     <ClInclude Include="PathFinding\Schemes\LargeGraphCreator.h" />
-    <ClInclude Include="PathFinding\Schemes\SLCGraph.h" />
+    <ClInclude Include="PathFinding\Schemes\SmallGraph.h" />
     <ClInclude Include="PathFinding\Schemes\TileGraph.h" />
     <ClInclude Include="src\Boid.h" />
     <ClInclude Include="src\ofApp.h" />
